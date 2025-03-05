@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+  <style>
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      border: none;
+    }
+    
+    /* Primary Button (For main actions like Add Course) */
+    .btn-primary {
+      background-color: #4caf50;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-primary:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+    
+    .btn-primary:active {
+      background-color: #3e8e41;
+      transform: scale(0.95);
+    }
+    
+    /* Fixed Button */
+    .fixed-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    div {
+      background-color: #ffffff;
+      border-radius: 8px;
+      border-width: 5px;
+      border-color: blue;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      padding: 50px;
+      text-align: center;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    input[type='text'],
+    input[type='password'] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    p {
+      color: black;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 5px;
+    }
+    h2 {
+      color: black;
+    
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .messages {
+      margin-bottom: 20px;
+    }
+    
+    .message {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    
+    .message.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    li {
+      background-color: #f8d7da;
+      color: #721c24;
+      font-size: 16px;
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    
+      text-align: left;
+    }
+  </style>
+
+  <body>
+    <div>
+      <h2>Welcome to E-learning Platform</h2>
+      <h3>Login</h3>
+
+      <form method="post" style="flex-direction: column;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <a href="{% url 'authapp:signup' %}">Dont Have account?Register</a>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </div>
+  </body>
+</html>

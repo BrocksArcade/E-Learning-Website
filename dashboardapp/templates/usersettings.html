@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .settings-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: fit-content;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: fit-content;
+            align-items: center;
+            text-align: center;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+            overflow-wrap: normal;
+            text-overflow: clip;
+            
+            max-width: fit-content;
+        }
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+        .btn-delete:hover {
+            background-color: #d32f2f;
+        }
+        .btn-back {
+            background-color: #4caf50;
+            color: white;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .btn-back:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .message.success {
+            background-color: #4caf50;
+            color: white;
+        }
+        .message.error {
+            background-color: #f44336;
+            color: white;
+        }
+        caption{
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <h1>Manage Settings</h1>
+   
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+       
+        <table>
+            <caption>Users</caption>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <form action="{% url 'dashboardapp:delete_user' user.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    
+        <table>
+            <caption>Courses</caption>
+            <thead>
+                <tr>
+                    <th>CourseName</th>
+                    <th>Created By</th>
+                    <th>Enrolled Students</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td>{{ course.coursename }}</td>
+                    <td>{{ course.createdby }}</td>
+                    <td>{{ course.totalstudents }}</td>
+                    <td>
+                        <form action="{% url 'dashboardapp:delete_course' course.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+     
+        <a href="{% url 'dashboardapp:dashboard' %}" class="btn btn-back">Back to Dashboard</a>
+    </div>
+</body>
+</html>

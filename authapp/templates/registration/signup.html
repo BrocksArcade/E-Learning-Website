@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        div {
+            background-color: #ffffff;
+            border-radius: 8px;
+            border: 2px solid #4caf50;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: #333333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            text-align: start;
+        }
+
+        p {
+            color: #333333;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-align: start;
+        }
+
+        label {
+            color: black;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type='text'], input[type='password'], input[type='email'] {
+            padding: 8px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 15px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #3e8e41;
+            transform: scale(0.95);
+        }
+
+        a {
+            color: #4caf50;
+            text-decoration: none;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul li, span {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-size: 12px;
+            background-color: #f8d7da;
+            color: #721c24;
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Welcome to E-learning Platform Signup</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Sign up</button>
+        </form>
+        <a href="{% url 'authapp:login' %}">Already have an account? Login</a>
+    </div>
+</body>
+</html>

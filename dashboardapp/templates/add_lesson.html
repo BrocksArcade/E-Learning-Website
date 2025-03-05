@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Lesson</title>
+    <style>
+      /* Body styling to center the card */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      /* Card container styling */
+      .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      
+      /* Form element styling */
+      .card h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333333;
+      }
+      
+      .form-group {
+        margin-bottom: 15px;
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555555;
+      }
+      
+      input[type='text'],
+      input[type='file'] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      
+      button {
+        width: 100%;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      text {
+        width: 100%;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Card container -->
+    <div class="card">
+      <h2>Add New Lesson</h2>
+      <form action="{% url 'dashboardapp:add_lesson' course.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Lesson Title -->
+        <div class="form-group">
+          <label for="title">Lesson Title:</label>
+          <input type="text" id="title" name="title" placeholder="Enter lesson title" required />
+        </div>
+
+        <!-- Upload Video -->
+        <div class="form-group">
+          <label for="video">Upload Video:</label>
+          <input type="file" id="video" name="video" accept="video/*" required />
+        </div>
+
+        <!-- Submit Button -->
+
+        <div class="form-group">
+          <button type="submit">Add Lesson</button>
+        </div>
+          <a href="{% url 'dashboardapp:view_course' course.id %}" style="text-decoration: none; color: #007bff; padding: 10px 20px; border-radius: 4px; text-align: center;">Back to Course View</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

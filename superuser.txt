@@ -1,0 +1,5 @@
+
+Username: csd
+Email address: csd@gmail.com
+Password:123456
+Password (again):

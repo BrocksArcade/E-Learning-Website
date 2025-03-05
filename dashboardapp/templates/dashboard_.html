@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+      }
+      
+      /* Drawer */
+      .drawer {
+        width: 250px;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #1e88e5;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        z-index: 999; /* Ensure drawer stays on top */
+      }
+      .drawer h2 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+      .drawer nav {
+        margin-top: 20px;
+        width: 100%;
+      }
+      .drawer nav a {
+        display: block;
+        padding: 10px 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        border-bottom: 1px solid #ffffff33;
+      }
+      .drawer nav a:hover {
+        background-color: #1565c0;
+      }
+      
+      /* Topbar */
+      .topbar {
+        margin-left: 250px;
+        height: 60px;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+      }
+      .topbar h1 {
+        font-size: 1.2rem;
+        margin: 0;
+      }
+      
+      /* Dashboard Content */
+      .content {
+        margin-left: 250px;
+        padding: 20px;
+        position: relative; /* To make the fixed button relative to the content */
+      }
+      
+      /* Course Grid */
+      .course-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+      
+      /* Course Cards */
+      .course-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 200px; /* Fixed height to keep cards uniform */
+        box-sizing: border-box;
+      }
+      
+      .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+      }
+      
+      .course-card h3 {
+        font-size: 1.2rem;
+      }
+      
+      .course-card p {
+        font-size: 1rem;
+        color: #666;
+      }
+      
+      /* Buttons */
+      .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        border: none;
+      }
+      
+      /* Primary Button (For main actions like Add Course) */
+      .btn-primary {
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      
+      .btn-primary:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+      }
+      
+      .btn-primary:active {
+        background-color: #3e8e41;
+        transform: scale(0.95);
+      }
+      
+      /* Fixed Button */
+      .fixed-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+      }
+      
+      @media (max-width: 768px) {
+        .drawer {
+          width: 100%;
+          height: auto;
+          position: relative;
+          flex-direction: row;
+          justify-content: space-around;
+        }
+        .topbar {
+          margin-left: 0;
+        }
+        .content {
+          margin-left: 0;
+        }
+        .course-card {
+          width: 100%;
+          height: auto; /* Allow the card to adjust height based on content */
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Drawer -->
+    <div class="drawer">
+      <h2>Dashboard</h2>
+      <nav>
+        <a href="{% url 'dashboardapp:view_profile' %}">Profile</a>
+        {% if user.role == 'admin' %}
+          <a href="{% url "dashboardapp:user_settings"  %}">Settings</a>
+        {% endif %}
+        <a href="{% url 'dashboardapp:user_logout' %}">Logout</a>
+      </nav>
+    </div>
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <h1>Welcome, {{ user.username }}</h1>
+    </div>
+
+    <div class="content">
+      <div class="course-container">
+        {% for course in courses %}
+          <div class="course-card">
+            <h3>Course Name :{{ course.coursename }}</h3>
+            <p>Students Enrolled: {{ course.totalstudents }}</p>
+            {% if user.role != 'student' %}
+              <a href="{% url 'dashboardapp:view_course' course.id %}" class="btn btn-primary">View Course</a>
+            {% elif course.id in enrolled_courses %}
+              <a href="{% url 'dashboardapp:view_course' course.id %}" class="btn btn-primary">View Course</a>
+            {% else %}
+              <a href="{% url 'dashboardapp:enroll_course' course.id %}" class="btn btn-primary">Enroll in Course</a>
+            {% endif %}
+        
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Add Course Button -->
+    <div class="content">
+      {% if user.role != 'student' %}
+        <a href="{% url 'dashboardapp:add_course' %}"><button class="btn btn-primary fixed-btn">Add Course</button></a>
+      {% endif %}
+    </div>
+  </body>
+</html>
